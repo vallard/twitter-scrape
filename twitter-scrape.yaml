@@ -1,0 +1,34 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: twitter-scrape
+spec:
+  template:
+    spec:
+      containers:
+      - name: twitter-scrape 
+        image: vallard/twitter-scrape
+        command: ["python", "twitter-scrape.py"]
+        env:
+        - name: TWITTER_KEY 
+          valueFrom:
+            secretKeyRef:
+              name: twitter
+              key: key
+        - name: TWITTER_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: twitter
+              key: secret
+        - name: TWITTER_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: twitter
+              key: token
+        - name: TWITTER_TOKEN_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: twitter
+              key: token_secret
+      restartPolicy: Never
+  backoffLimit: 4
