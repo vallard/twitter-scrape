@@ -1,0 +1,39 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: twitter-scrape
+spec:
+  # run at 5 minutes after the hour every hour.
+  schedule: "5 * * * *"
+  #ttlSecondsAfterFinished: 100 #alpha in kubernetes 1.12
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: twitter-scrape 
+            image: vallard/twitter-scrape
+            command: ["python", "twitter-scrape.py"]
+            env:
+            - name: TWITTER_KEY 
+              valueFrom:
+                secretKeyRef:
+                  name: twitter
+                  key: key
+            - name: TWITTER_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: twitter
+                  key: secret
+            - name: TWITTER_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: twitter
+                  key: token
+            - name: TWITTER_TOKEN_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: twitter
+                  key: token_secret
+          restartPolicy: Never
+

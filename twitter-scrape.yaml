@@ -3,6 +3,7 @@ kind: Job
 metadata:
   name: twitter-scrape
 spec:
+  #ttlSecondsAfterFinished: 100 #alpha in kubernetes 1.12
   template:
     spec:
       containers:
@@ -32,3 +33,4 @@ spec:
               key: token_secret
       restartPolicy: Never
   backoffLimit: 4
+

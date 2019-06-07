@@ -9,3 +9,9 @@ api = twitter.Api(consumer_key=os.environ['TWITTER_KEY'],
   access_token_secret=os.environ['TWITTER_TOKEN_SECRET'])
 
 print(api.VerifyCredentials())
+
+search = api.GetSearch("#jackrogers")
+for tweet in search: 
+    print(tweet.id, tweet.text)
+
+
